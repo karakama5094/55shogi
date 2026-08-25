@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>5五将棋 (Minishogi) - スマホ完全対応</title>
   <style>
     :root {
@@ -39,7 +39,6 @@
       padding-bottom: 24px;
     }
 
-    /* Global SVG Defs hidden */
     .svg-defs {
       position: absolute;
       width: 0;
@@ -48,7 +47,6 @@
       visibility: hidden;
     }
 
-    /* Header */
     header {
       width: 100%;
       max-width: 860px;
@@ -100,7 +98,6 @@
       background: rgba(255, 255, 255, 0.25);
     }
 
-    /* Main layout */
     .main-container {
       width: 100%;
       max-width: 860px;
@@ -122,7 +119,6 @@
       }
     }
 
-    /* Left: Game Stage */
     .game-stage {
       display: flex;
       flex-direction: column;
@@ -136,7 +132,6 @@
       max-width: 420px;
     }
 
-    /* Status Bar */
     .status-bar {
       width: 100%;
       display: flex;
@@ -183,7 +178,6 @@
       to { transform: scale(1.08); opacity: 1; }
     }
 
-    /* Komadai */
     .komadai-box {
       width: 100%;
       background: linear-gradient(180deg, #322516, #22180e);
@@ -256,7 +250,6 @@
       pointer-events: none;
     }
 
-    /* Board Area */
     .board-wrapper {
       position: relative;
       margin: 8px 0;
@@ -341,7 +334,6 @@
       background: radial-gradient(circle, rgba(255, 50, 50, 0.75) 0%, rgba(255, 0, 0, 0.25) 80%);
     }
 
-    /* Piece Container */
     .piece-container {
       width: 44px;
       height: 50px;
@@ -364,7 +356,6 @@
       filter: drop-shadow(0 0 6px #f59e0b);
     }
 
-    /* SVG Piece */
     .shogi-svg {
       width: 100%;
       height: 100%;
@@ -377,7 +368,6 @@
       transform: rotate(180deg);
     }
 
-    /* Move Targets */
     .target-marker {
       width: 18px;
       height: 18px;
@@ -406,7 +396,6 @@
       to { opacity: 1; }
     }
 
-    /* Right: Control Panel & Kifu */
     .side-panel {
       display: flex;
       flex-direction: column;
@@ -435,7 +424,6 @@
       padding-bottom: 4px;
     }
 
-    /* Buttons */
     .button-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -465,7 +453,6 @@
     .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
     .btn-full { grid-column: span 2; }
 
-    /* Kifu List */
     .kifu-container {
       max-height: 140px;
       overflow-y: auto;
@@ -498,7 +485,6 @@
     .kifu-num { width: 34px; color: var(--text-muted); }
     .kifu-move { flex: 1; }
 
-    /* Eval Bar */
     .ai-eval-box {
       font-size: 0.75rem;
       color: var(--text-muted);
@@ -526,12 +512,11 @@
       transition: width 0.3s ease;
     }
 
-    /* Modals - Fixed with display: none when inactive so they NEVER block touches! */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.8);
-      display: none; /* Crucial fix for iOS */
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 999;
@@ -539,7 +524,7 @@
     }
 
     .modal-overlay.active {
-      display: flex; /* Shown only when active */
+      display: flex;
     }
 
     .modal-content {
@@ -576,7 +561,6 @@
       touch-action: manipulation;
     }
 
-    /* Promotion Dialog */
     .promo-cards {
       display: flex;
       justify-content: center;
@@ -608,7 +592,6 @@
       font-size: 0.9rem;
     }
 
-    /* Settings */
     .form-group { margin-bottom: 12px; }
     .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: #cbd5e0; margin-bottom: 4px; }
     .form-control-row { display: flex; gap: 6px; }
@@ -633,7 +616,6 @@
       font-weight: 700;
     }
 
-    /* Rule Text */
     .rule-text {
       max-height: 320px;
       overflow-y: auto;
@@ -656,7 +638,6 @@
 </head>
 <body>
 
-  <!-- Hidden SVG Gradient Defs -->
   <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="sentePieceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -670,7 +651,6 @@
     </defs>
   </svg>
 
-  <!-- Header -->
   <header>
     <div style="display: flex; align-items: baseline;">
       <span class="app-title">５五将棋</span>
@@ -683,13 +663,8 @@
     </div>
   </header>
 
-  <!-- Main Container -->
   <div class="main-container">
-    
-    <!-- Left Stage: Game Board -->
     <div class="game-stage">
-      
-      <!-- Status Bar -->
       <div class="status-bar">
         <div class="turn-indicator">
           <span class="turn-badge sente" id="turnBadge"></span>
@@ -699,13 +674,11 @@
         <div id="moveCount">0手</div>
       </div>
 
-      <!-- Gote (Top) Komadai -->
       <div class="komadai-box" id="goteKomadai">
         <span class="player-label gote" id="goteLabel">△ 後手 (AI)</span>
         <div class="captured-pieces" id="goteCaptured"></div>
       </div>
 
-      <!-- Board Area -->
       <div class="board-wrapper">
         <div class="col-labels" id="colLabels">
           <span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
@@ -716,18 +689,13 @@
         <div class="shogi-board" id="boardGrid"></div>
       </div>
 
-      <!-- Sente (Bottom) Komadai -->
       <div class="komadai-box" id="senteKomadai">
         <span class="player-label sente" id="senteLabel">▲ 先手 (あなた)</span>
         <div class="captured-pieces" id="senteCaptured"></div>
       </div>
-
     </div>
 
-    <!-- Right: Control & Kifu Panel -->
     <div class="side-panel">
-      
-      <!-- Actions Card -->
       <div class="panel-card">
         <div class="card-title">対局操作</div>
         <div class="button-grid">
@@ -740,7 +708,6 @@
         </div>
       </div>
 
-      <!-- AI Evaluation Bar -->
       <div class="panel-card" id="evalCard">
         <div class="card-title">
           <span>形勢判断</span>
@@ -754,7 +721,6 @@
         </div>
       </div>
 
-      <!-- Kifu History -->
       <div class="panel-card">
         <div class="card-title">
           <span>棋譜記録</span>
@@ -764,12 +730,9 @@
           <div class="kifu-list" id="kifuList"></div>
         </div>
       </div>
-
     </div>
-
   </div>
 
-  <!-- Promotion Modal -->
   <div class="modal-overlay" id="promoModal">
     <div class="modal-content" style="max-width: 320px; text-align: center;">
       <div class="modal-title">駒の成り</div>
@@ -787,12 +750,11 @@
     </div>
   </div>
 
-  <!-- Settings Modal -->
   <div class="modal-overlay" id="settingsModal">
     <div class="modal-content">
       <div class="modal-header">
         <div class="modal-title">新規対局設定</div>
-        <button class="close-btn" id="closeSettingsModal">&times;</button>
+        <button class="close-btn" id="closeSettingsModal">×</button>
       </div>
 
       <div class="form-group">
@@ -833,12 +795,11 @@
     </div>
   </div>
 
-  <!-- Rules Modal -->
   <div class="modal-overlay" id="ruleModal">
     <div class="modal-content" style="max-width: 480px;">
       <div class="modal-header">
         <div class="modal-title">５五将棋のルール</div>
-        <button class="close-btn" id="closeRuleModal">&times;</button>
+        <button class="close-btn" id="closeRuleModal">×</button>
       </div>
       <div class="rule-text">
         <h4>1. 概要と初期配置</h4>
@@ -865,7 +826,6 @@
     </div>
   </div>
 
-  <!-- Game End Result Modal -->
   <div class="modal-overlay" id="resultModal">
     <div class="modal-content" style="max-width: 320px; text-align: center;">
       <div class="modal-title" id="resultTitle" style="font-size: 1.3rem; margin-bottom: 6px;">勝負あり！</div>
@@ -874,15 +834,15 @@
     </div>
   </div>
 
-  <!-- Audio Synthesizer & Game Logic Script -->
   <script>
+  //<![CDATA[
   (function() {
     'use strict';
 
     function createPieceSvg(kanji, isPromoted, isGote) {
-      const textColor = isPromoted ? '#c82323' : '#1a1a1a';
-      const gradId = isGote ? 'gotePieceGrad' : 'sentePieceGrad';
-      const rotClass = isGote ? 'gote' : '';
+      var textColor = isPromoted ? '#c82323' : '#1a1a1a';
+      var gradId = isGote ? 'gotePieceGrad' : 'sentePieceGrad';
+      var rotClass = isGote ? 'gote' : '';
       return '<svg viewBox="0 0 100 115" class="shogi-svg ' + rotClass + '">' +
         '<path d="M 50 4 L 92 24 L 83 110 L 17 110 L 8 24 Z" fill="url(#' + gradId + ')" stroke="#7c4a1e" stroke-width="3.5"/>' +
         '<text x="50" y="78" font-family="-apple-system, sans-serif" font-size="54" font-weight="900" text-anchor="middle" fill="' + textColor + '">' + kanji + '</text>' +
@@ -898,7 +858,7 @@
       init() {
         if (!this.ctx) {
           try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            var AudioContext = window.AudioContext || window.webkitAudioContext;
             if (AudioContext) this.ctx = new AudioContext();
           } catch(e) {}
         }
@@ -912,9 +872,9 @@
         this.init();
         if (!this.ctx) return;
         try {
-          const now = this.ctx.currentTime;
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
+          var now = this.ctx.currentTime;
+          var osc = this.ctx.createOscillator();
+          var gain = this.ctx.createGain();
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(320, now);
           osc.frequency.exponentialRampToValueAtTime(80, now + 0.07);
@@ -932,9 +892,9 @@
         this.init();
         if (!this.ctx) return;
         try {
-          const now = this.ctx.currentTime;
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
+          var now = this.ctx.currentTime;
+          var osc = this.ctx.createOscillator();
+          var gain = this.ctx.createGain();
           osc.type = 'square';
           osc.frequency.setValueAtTime(440, now);
           osc.frequency.exponentialRampToValueAtTime(110, now + 0.1);
@@ -952,11 +912,11 @@
         this.init();
         if (!this.ctx) return;
         try {
-          const notes = [523.25, 659.25, 783.99, 1046.50];
+          var notes = [523.25, 659.25, 783.99, 1046.50];
           notes.forEach((freq, idx) => {
-            const now = this.ctx.currentTime + idx * 0.05;
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
+            var now = this.ctx.currentTime + idx * 0.05;
+            var osc = this.ctx.createOscillator();
+            var gain = this.ctx.createGain();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(freq, now);
             gain.gain.setValueAtTime(0.25, now);
@@ -974,10 +934,10 @@
         this.init();
         if (!this.ctx) return;
         try {
-          const now = this.ctx.currentTime;
+          var now = this.ctx.currentTime;
           [880, 1174.66].forEach((f, i) => {
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
+            var osc = this.ctx.createOscillator();
+            var gain = this.ctx.createGain();
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(f, now + i * 0.08);
             gain.gain.setValueAtTime(0.2, now + i * 0.08);
@@ -995,11 +955,11 @@
         this.init();
         if (!this.ctx) return;
         try {
-          const notes = [523.25, 659.25, 783.99, 1046.50];
+          var notes = [523.25, 659.25, 783.99, 1046.50];
           notes.forEach((freq, idx) => {
-            const now = this.ctx.currentTime + idx * 0.1;
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
+            var now = this.ctx.currentTime + idx * 0.1;
+            var osc = this.ctx.createOscillator();
+            var gain = this.ctx.createGain();
             osc.type = 'triangle';
             osc.frequency.setValueAtTime(freq, now);
             gain.gain.setValueAtTime(0.3, now);
@@ -1138,7 +1098,6 @@
 
       init() {
         this.board = Array(5).fill(null).map(() => Array(5).fill(null));
-        // Gote
         this.board[0][0] = { type: 'R', side: GOTE };
         this.board[0][1] = { type: 'B', side: GOTE };
         this.board[0][2] = { type: 'S', side: GOTE };
@@ -1146,7 +1105,6 @@
         this.board[0][4] = { type: 'K', side: GOTE };
         this.board[1][4] = { type: 'P', side: GOTE };
 
-        // Sente
         this.board[3][0] = { type: 'P', side: SENTE };
         this.board[4][0] = { type: 'K', side: SENTE };
         this.board[4][1] = { type: 'G', side: SENTE };
@@ -1178,34 +1136,35 @@
       }
 
       getHashKey() {
-        let bStr = '';
-        for (let r = 0; r < 5; r++) {
-          for (let c = 0; c < 5; c++) {
-            const sq = this.board[r][c];
+        var bStr = '';
+        for (var r = 0; r < 5; r++) {
+          for (var c = 0; c < 5; c++) {
+            var sq = this.board[r][c];
             if (!sq) bStr += '.';
             else bStr += (sq.side === SENTE ? '+' : '-') + sq.type;
           }
         }
-        const hS = Object.entries(this.hands[SENTE]).map(([k, v]) => k + ':' + v).join(',');
-        const hG = Object.entries(this.hands[GOTE]).map(([k, v]) => k + ':' + v).join(',');
+        var hS = Object.entries(this.hands[SENTE]).map(([k, v]) => k + ':' + v).join(',');
+        var hG = Object.entries(this.hands[GOTE]).map(([k, v]) => k + ':' + v).join(',');
         return bStr + '|' + hS + '|' + hG + '|' + this.turn;
       }
 
       getRawPieceMoves(ptype, side, r, c, board) {
-        const moves = [];
-        const fwd = (side === SENTE) ? -1 : 1;
+        var moves = [];
+        var fwd = (side === SENTE) ? -1 : 1;
 
         if (ptype === 'P') {
-          const nr = r + fwd, nc = c;
+          var nr = r + fwd, nc = c;
           if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
             if (!board[nr][nc] || board[nr][nc].side !== side) {
               moves.push({ r: nr, c: nc });
             }
           }
         } else if (ptype === 'G' || ptype === '+P' || ptype === '+S') {
-          const dirs = [[fwd, 0], [0, -1], [0, 1], [-fwd, 0], [fwd, -1], [fwd, 1]];
-          for (const [dr, dc] of dirs) {
-            const nr = r + dr, nc = c + dc;
+          var dirs = [[fwd, 0], [0, -1], [0, 1], [-fwd, 0], [fwd, -1], [fwd, 1]];
+          for (var i = 0; i < dirs.length; i++) {
+            var dr = dirs[i][0], dc = dirs[i][1];
+            var nr = r + dr, nc = c + dc;
             if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
               if (!board[nr][nc] || board[nr][nc].side !== side) {
                 moves.push({ r: nr, c: nc });
@@ -1213,9 +1172,10 @@
             }
           }
         } else if (ptype === 'S') {
-          const dirs = [[fwd, 0], [fwd, -1], [fwd, 1], [-fwd, -1], [-fwd, 1]];
-          for (const [dr, dc] of dirs) {
-            const nr = r + dr, nc = c + dc;
+          var dirs = [[fwd, 0], [fwd, -1], [fwd, 1], [-fwd, -1], [-fwd, 1]];
+          for (var i = 0; i < dirs.length; i++) {
+            var dr = dirs[i][0], dc = dirs[i][1];
+            var nr = r + dr, nc = c + dc;
             if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
               if (!board[nr][nc] || board[nr][nc].side !== side) {
                 moves.push({ r: nr, c: nc });
@@ -1223,9 +1183,10 @@
             }
           }
         } else if (ptype === 'K') {
-          const dirs = [[-1,-1], [-1,0], [-1,1], [0,-1], [0,1], [1,-1], [1,0], [1,1]];
-          for (const [dr, dc] of dirs) {
-            const nr = r + dr, nc = c + dc;
+          var dirs = [[-1,-1], [-1,0], [-1,1], [0,-1], [0,1], [1,-1], [1,0], [1,1]];
+          for (var i = 0; i < dirs.length; i++) {
+            var dr = dirs[i][0], dc = dirs[i][1];
+            var nr = r + dr, nc = c + dc;
             if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
               if (!board[nr][nc] || board[nr][nc].side !== side) {
                 moves.push({ r: nr, c: nc });
@@ -1233,9 +1194,10 @@
             }
           }
         } else if (ptype === 'R' || ptype === '+R') {
-          const rayDirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-          for (const [dr, dc] of rayDirs) {
-            let nr = r + dr, nc = c + dc;
+          var rayDirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+          for (var i = 0; i < rayDirs.length; i++) {
+            var dr = rayDirs[i][0], dc = rayDirs[i][1];
+            var nr = r + dr, nc = c + dc;
             while (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
               if (!board[nr][nc]) {
                 moves.push({ r: nr, c: nc });
@@ -1248,18 +1210,20 @@
             }
           }
           if (ptype === '+R') {
-            const diagDirs = [[-1,-1], [-1,1], [1,-1], [1,1]];
-            for (const [dr, dc] of diagDirs) {
-              const nr = r + dr, nc = c + dc;
+            var diagDirs = [[-1,-1], [-1,1], [1,-1], [1,1]];
+            for (var i = 0; i < diagDirs.length; i++) {
+              var dr = diagDirs[i][0], dc = diagDirs[i][1];
+              var nr = r + dr, nc = c + dc;
               if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
                 if (!board[nr][nc] || board[nr][nc].side !== side) moves.push({ r: nr, c: nc });
               }
             }
           }
         } else if (ptype === 'B' || ptype === '+B') {
-          const rayDirs = [[-1,-1], [-1,1], [1,-1], [1,1]];
-          for (const [dr, dc] of rayDirs) {
-            let nr = r + dr, nc = c + dc;
+          var rayDirs = [[-1,-1], [-1,1], [1,-1], [1,1]];
+          for (var i = 0; i < rayDirs.length; i++) {
+            var dr = rayDirs[i][0], dc = rayDirs[i][1];
+            var nr = r + dr, nc = c + dc;
             while (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
               if (!board[nr][nc]) {
                 moves.push({ r: nr, c: nc });
@@ -1272,9 +1236,10 @@
             }
           }
           if (ptype === '+B') {
-            const orthoDirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-            for (const [dr, dc] of orthoDirs) {
-              const nr = r + dr, nc = c + dc;
+            var orthoDirs = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+            for (var i = 0; i < orthoDirs.length; i++) {
+              var dr = orthoDirs[i][0], dc = orthoDirs[i][1];
+              var nr = r + dr, nc = c + dc;
               if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
                 if (!board[nr][nc] || board[nr][nc].side !== side) moves.push({ r: nr, c: nc });
               }
@@ -1285,11 +1250,11 @@
       }
 
       isKingInCheck(side, customBoard = null) {
-        const board = customBoard || this.board;
-        let kr = -1, kc = -1;
-        for (let r = 0; r < 5; r++) {
-          for (let c = 0; c < 5; c++) {
-            const sq = board[r][c];
+        var board = customBoard || this.board;
+        var kr = -1, kc = -1;
+        for (var r = 0; r < 5; r++) {
+          for (var c = 0; c < 5; c++) {
+            var sq = board[r][c];
             if (sq && sq.side === side && sq.type === 'K') {
               kr = r; kc = c;
               break;
@@ -1299,14 +1264,14 @@
         }
         if (kr === -1) return true;
 
-        const opp = -side;
-        for (let r = 0; r < 5; r++) {
-          for (let c = 0; c < 5; c++) {
-            const sq = board[r][c];
+        var opp = -side;
+        for (var r = 0; r < 5; r++) {
+          for (var c = 0; c < 5; c++) {
+            var sq = board[r][c];
             if (sq && sq.side === opp) {
-              const moves = this.getRawPieceMoves(sq.type, opp, r, c, board);
-              for (const m of moves) {
-                if (m.r === kr && m.c === kc) return true;
+              var moves = this.getRawPieceMoves(sq.type, opp, r, c, board);
+              for (var i = 0; i < moves.length; i++) {
+                if (moves[i].r === kr && moves[i].c === kc) return true;
               }
             }
           }
@@ -1316,13 +1281,13 @@
 
       canPromote(ptype, fromR, toR, side) {
         if (!PROMOTABLE.includes(ptype)) return false;
-        const promoRank = (side === SENTE) ? 0 : 4;
+        var promoRank = (side === SENTE) ? 0 : 4;
         return (fromR === promoRank || toR === promoRank);
       }
 
       mustPromote(ptype, toR, side) {
         if (ptype === 'P') {
-          const promoRank = (side === SENTE) ? 0 : 4;
+          var promoRank = (side === SENTE) ? 0 : 4;
           return (toR === promoRank);
         }
         return false;
@@ -1330,34 +1295,34 @@
 
       isUchifuzume(move, side) {
         if (move.type !== 'drop' || move.piece !== 'P') return false;
-        const tempBoard = this.cloneBoard();
+        var tempBoard = this.cloneBoard();
         tempBoard[move.toR][move.toC] = { type: 'P', side: side };
         
-        const opp = -side;
+        var opp = -side;
         if (!this.isKingInCheck(opp, tempBoard)) return false;
 
-        const oppLegalMoves = this.generateLegalMoves(opp, tempBoard, this.hands);
+        var oppLegalMoves = this.generateLegalMoves(opp, tempBoard, this.hands);
         return (oppLegalMoves.length === 0);
       }
 
       generateLegalMoves(side = this.turn, customBoard = null, customHands = null) {
-        const board = customBoard || this.board;
-        const hands = customHands || this.hands;
-        const legalMoves = [];
+        var board = customBoard || this.board;
+        var hands = customHands || this.hands;
+        var legalMoves = [];
 
-        // 1. Board Moves
-        for (let r = 0; r < 5; r++) {
-          for (let c = 0; c < 5; c++) {
-            const sq = board[r][c];
+        for (var r = 0; r < 5; r++) {
+          for (var c = 0; c < 5; c++) {
+            var sq = board[r][c];
             if (sq && sq.side === side) {
-              const rawDests = this.getRawPieceMoves(sq.type, side, r, c, board);
-              for (const dest of rawDests) {
-                const target = board[dest.r][dest.c];
-                const isPromoCapable = this.canPromote(sq.type, r, dest.r, side);
-                const isForcedPromo = this.mustPromote(sq.type, dest.r, side);
+              var rawDests = this.getRawPieceMoves(sq.type, side, r, c, board);
+              for (var i = 0; i < rawDests.length; i++) {
+                var dest = rawDests[i];
+                var target = board[dest.r][dest.c];
+                var isPromoCapable = this.canPromote(sq.type, r, dest.r, side);
+                var isForcedPromo = this.mustPromote(sq.type, dest.r, side);
 
                 if (!isForcedPromo) {
-                  const tempBoard = board.map(row => row.map(cell => cell ? { ...cell } : null));
+                  var tempBoard = board.map(row => row.map(cell => cell ? { ...cell } : null));
                   tempBoard[dest.r][dest.c] = { type: sq.type, side: side };
                   tempBoard[r][c] = null;
                   if (!this.isKingInCheck(side, tempBoard)) {
@@ -1374,8 +1339,8 @@
                 }
 
                 if (isPromoCapable) {
-                  const promotedType = PROMO_MAP[sq.type];
-                  const tempBoard = board.map(row => row.map(cell => cell ? { ...cell } : null));
+                  var promotedType = PROMO_MAP[sq.type];
+                  var tempBoard = board.map(row => row.map(cell => cell ? { ...cell } : null));
                   tempBoard[dest.r][dest.c] = { type: promotedType, side: side };
                   tempBoard[r][c] = null;
                   if (!this.isKingInCheck(side, tempBoard)) {
@@ -1396,22 +1361,22 @@
           }
         }
 
-        // 2. Drops
-        const myHand = hands[side];
-        for (const [ptype, count] of Object.entries(myHand)) {
+        var myHand = hands[side];
+        for (var ptype in myHand) {
+          var count = myHand[ptype];
           if (count <= 0) continue;
 
-          for (let r = 0; r < 5; r++) {
-            for (let c = 0; c < 5; c++) {
+          for (var r = 0; r < 5; r++) {
+            for (var c = 0; c < 5; c++) {
               if (board[r][c] !== null) continue;
 
               if (ptype === 'P') {
                 if (side === SENTE && r === 0) continue;
                 if (side === GOTE && r === 4) continue;
 
-                let hasPawnInCol = false;
-                for (let rowIdx = 0; rowIdx < 5; rowIdx++) {
-                  const cell = board[rowIdx][c];
+                var hasPawnInCol = false;
+                for (var rowIdx = 0; rowIdx < 5; rowIdx++) {
+                  var cell = board[rowIdx][c];
                   if (cell && cell.side === side && cell.type === 'P') {
                     hasPawnInCol = true;
                     break;
@@ -1420,10 +1385,10 @@
                 if (hasPawnInCol) continue;
               }
 
-              const tempBoard = board.map(row => row.map(cell => cell ? { ...cell } : null));
+              var tempBoard = board.map(row => row.map(cell => cell ? { ...cell } : null));
               tempBoard[r][c] = { type: ptype, side: side };
               if (!this.isKingInCheck(side, tempBoard)) {
-                const dropMove = {
+                var dropMove = {
                   type: 'drop',
                   toR: r, toC: c,
                   piece: ptype,
@@ -1442,7 +1407,7 @@
       }
 
       makeMove(move) {
-        const stateCopy = {
+        var stateCopy = {
           board: this.cloneBoard(),
           hands: this.cloneHands(),
           turn: this.turn,
@@ -1450,12 +1415,12 @@
         };
 
         if (move.type === 'move') {
-          const target = this.board[move.toR][move.toC];
+          var target = this.board[move.toR][move.toC];
           if (target) {
-            const baseType = UNPROMO_MAP[target.type] || target.type;
+            var baseType = UNPROMO_MAP[target.type] || target.type;
             this.hands[this.turn][baseType]++;
           }
-          const pieceType = move.promote ? move.promotedType : move.piece;
+          var pieceType = move.promote ? move.promotedType : move.piece;
           this.board[move.toR][move.toC] = { type: pieceType, side: this.turn };
           this.board[move.fromR][move.fromC] = null;
         } else if (move.type === 'drop') {
@@ -1472,7 +1437,7 @@
 
       undoMove() {
         if (this.moveHistory.length === 0) return null;
-        const lastState = this.moveHistory.pop();
+        var lastState = this.moveHistory.pop();
         this.positionHistory.pop();
         this.board = lastState.board;
         this.hands = lastState.hands;
@@ -1484,8 +1449,8 @@
       }
 
       checkGameEnd() {
-        const legalMoves = this.generateLegalMoves(this.turn);
-        const inCheck = this.isKingInCheck(this.turn);
+        var legalMoves = this.generateLegalMoves(this.turn);
+        var inCheck = this.isKingInCheck(this.turn);
 
         if (legalMoves.length === 0) {
           this.isGameOver = true;
@@ -1494,8 +1459,8 @@
           return;
         }
 
-        const currentHash = this.getHashKey();
-        const repCount = this.positionHistory.filter(h => h === currentHash).length;
+        var currentHash = this.getHashKey();
+        var repCount = this.positionHistory.filter(h => h === currentHash).length;
         if (repCount >= 4) {
           this.isGameOver = true;
           if (this.sennichiteRule === 'goteWin') {
@@ -1509,49 +1474,49 @@
       }
 
       formatMoveText(move, lastMove = null) {
-        const sidePrefix = (move.side === SENTE) ? '▲' : '△';
-        const fileKanji = ['５', '４', '３', '２', '１'][move.toC];
-        const rankKanji = ['一', '二', '三', '四', '五'][move.toR];
+        var sidePrefix = (move.side === SENTE) ? '▲' : '△';
+        var fileKanji = ['５', '４', '３', '２', '１'][move.toC];
+        var rankKanji = ['一', '二', '三', '四', '五'][move.toR];
         
-        let posStr = fileKanji + rankKanji;
+        var posStr = fileKanji + rankKanji;
         if (lastMove && lastMove.toR === move.toR && lastMove.toC === move.toC) {
           posStr = '同　';
         }
 
-        const pName = PIECE_NAMES[move.piece][move.side === SENTE ? 'S' : 'G'];
-        let promoSuffix = '';
+        var pName = PIECE_NAMES[move.piece][move.side === SENTE ? 'S' : 'G'];
+        var promoSuffix = '';
         if (move.promote) {
           promoSuffix = '成';
         } else if (move.type === 'move' && this.canPromote(move.piece, move.fromR, move.toR, move.side)) {
           promoSuffix = '不成';
         }
 
-        const dropSuffix = (move.type === 'drop') ? '打' : '';
+        var dropSuffix = (move.type === 'drop') ? '打' : '';
         return sidePrefix + posStr + pName + promoSuffix + dropSuffix;
       }
 
       evaluate() {
-        let score = 0;
-        for (let r = 0; r < 5; r++) {
-          for (let c = 0; c < 5; c++) {
-            const sq = this.board[r][c];
+        var score = 0;
+        for (var r = 0; r < 5; r++) {
+          for (var c = 0; c < 5; c++) {
+            var sq = this.board[r][c];
             if (sq) {
-              const val = PIECE_VALS[sq.type] || 0;
+              var val = PIECE_VALS[sq.type] || 0;
               if (sq.side === SENTE) {
-                const pstVal = (PST[sq.type] ? PST[sq.type][r][c] : 0);
+                var pstVal = (PST[sq.type] ? PST[sq.type][r][c] : 0);
                 score += val + pstVal;
               } else {
-                const pstVal = (PST[sq.type] ? PST[sq.type][4 - r][4 - c] : 0);
+                var pstVal = (PST[sq.type] ? PST[sq.type][4 - r][4 - c] : 0);
                 score -= (val + pstVal);
               }
             }
           }
         }
-        for (const [pt, cnt] of Object.entries(this.hands[SENTE])) {
-          score += cnt * (HAND_VALS[pt] || 100);
+        for (var pt in this.hands[SENTE]) {
+          score += this.hands[SENTE][pt] * (HAND_VALS[pt] || 100);
         }
-        for (const [pt, cnt] of Object.entries(this.hands[GOTE])) {
-          score -= cnt * (HAND_VALS[pt] || 100);
+        for (var pt in this.hands[GOTE]) {
+          score -= this.hands[GOTE][pt] * (HAND_VALS[pt] || 100);
         }
         return score;
       }
@@ -1563,15 +1528,15 @@
       }
 
       getBestMove(level = 2) {
-        const side = this.game.turn;
-        const legalMoves = this.game.generateLegalMoves(side);
+        var side = this.game.turn;
+        var legalMoves = this.game.generateLegalMoves(side);
         if (legalMoves.length === 0) return null;
         if (legalMoves.length === 1) return legalMoves[0];
 
         if (level === 1) {
           this.orderMoves(legalMoves, side);
           if (Math.random() < 0.25) {
-            const topSlice = legalMoves.slice(0, Math.min(4, legalMoves.length));
+            var topSlice = legalMoves.slice(0, Math.min(4, legalMoves.length));
             return topSlice[Math.floor(Math.random() * topSlice.length)];
           }
           return this.searchBestMove(2, side);
@@ -1590,7 +1555,7 @@
 
       orderMoves(moves, side) {
         moves.sort((a, b) => {
-          let scoreA = 0, scoreB = 0;
+          var scoreA = 0, scoreB = 0;
           if (a.captured) scoreA += (PIECE_VALS[a.captured] * 10) - (PIECE_VALS[a.piece] || 0);
           if (b.captured) scoreB += (PIECE_VALS[b.captured] * 10) - (PIECE_VALS[b.piece] || 0);
           if (a.promote) scoreA += 300;
@@ -1600,16 +1565,17 @@
       }
 
       searchBestMove(maxDepth, side) {
-        let bestMove = null;
-        let alpha = -999999;
-        let beta = 999999;
+        var bestMove = null;
+        var alpha = -999999;
+        var beta = 999999;
 
-        const moves = this.game.generateLegalMoves(side);
+        var moves = this.game.generateLegalMoves(side);
         this.orderMoves(moves, side);
 
-        for (const move of moves) {
+        for (var i = 0; i < moves.length; i++) {
+          var move = moves[i];
           this.game.makeMove(move);
-          const score = -this.alphaBeta(maxDepth - 1, -beta, -alpha, -side);
+          var score = -this.alphaBeta(maxDepth - 1, -beta, -alpha, -side);
           this.game.undoMove();
 
           if (score > alpha) {
@@ -1631,16 +1597,17 @@
           return this.quiescence(alpha, beta, side, 2);
         }
 
-        const moves = this.game.generateLegalMoves(side);
+        var moves = this.game.generateLegalMoves(side);
         if (moves.length === 0) {
           return -30000 - depth;
         }
 
         this.orderMoves(moves, side);
 
-        for (const move of moves) {
+        for (var i = 0; i < moves.length; i++) {
+          var move = moves[i];
           this.game.makeMove(move);
-          const score = -this.alphaBeta(depth - 1, -beta, -alpha, -side);
+          var score = -this.alphaBeta(depth - 1, -beta, -alpha, -side);
           this.game.undoMove();
 
           if (score >= beta) return beta;
@@ -1650,17 +1617,18 @@
       }
 
       quiescence(alpha, beta, side, qDepth) {
-        const standPat = (side === SENTE) ? this.game.evaluate() : -this.game.evaluate();
+        var standPat = (side === SENTE) ? this.game.evaluate() : -this.game.evaluate();
         if (qDepth <= 0) return standPat;
         if (standPat >= beta) return beta;
         if (standPat > alpha) alpha = standPat;
 
-        const moves = this.game.generateLegalMoves(side).filter(m => m.captured || m.promote);
+        var moves = this.game.generateLegalMoves(side).filter(m => m.captured || m.promote);
         this.orderMoves(moves, side);
 
-        for (const move of moves) {
+        for (var i = 0; i < moves.length; i++) {
+          var move = moves[i];
           this.game.makeMove(move);
-          const score = -this.quiescence(-beta, -alpha, -side, qDepth - 1);
+          var score = -this.quiescence(-beta, -alpha, -side, qDepth - 1);
           this.game.undoMove();
 
           if (score >= beta) return beta;
@@ -1732,7 +1700,7 @@
       }
 
       bindEvents() {
-        const addTap = (el, handler) => {
+        var addTap = (el, handler) => {
           if (!el) return;
           el.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1767,12 +1735,12 @@
         document.querySelectorAll('.radio-pill').forEach(pill => {
           pill.addEventListener('click', (e) => {
             e.preventDefault();
-            const grp = pill.dataset.group;
+            var grp = pill.dataset.group;
             document.querySelectorAll(`.radio-pill[data-group="${grp}"]`).forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
 
             if (grp === 'mode') {
-              const modeVal = pill.dataset.val;
+              var modeVal = pill.dataset.val;
               document.getElementById('playerSideGroup').style.display = (modeVal === 'pve') ? 'block' : 'none';
               document.getElementById('aiLevelGroup').style.display = (modeVal === 'pvp') ? 'none' : 'block';
             }
@@ -1787,10 +1755,10 @@
       }
 
       startNewGameFromSettings() {
-        const activeMode = document.querySelector('.radio-pill[data-group="mode"].active').dataset.val;
-        const activeSide = document.querySelector('.radio-pill[data-group="side"].active').dataset.val;
-        const activeLevel = parseInt(document.querySelector('.radio-pill[data-group="level"].active').dataset.val, 10);
-        const activeSennichite = document.querySelector('.radio-pill[data-group="sennichite"].active').dataset.val;
+        var activeMode = document.querySelector('.radio-pill[data-group="mode"].active').dataset.val;
+        var activeSide = document.querySelector('.radio-pill[data-group="side"].active').dataset.val;
+        var activeLevel = parseInt(document.querySelector('.radio-pill[data-group="level"].active').dataset.val, 10);
+        var activeSennichite = document.querySelector('.radio-pill[data-group="sennichite"].active').dataset.val;
 
         this.mode = activeMode;
         this.playerSide = (activeSide === 'sente') ? SENTE : GOTE;
@@ -1829,7 +1797,7 @@
         this.dom.aiThoughtText.textContent = 'AI (Lv' + this.aiLevel + ') 思考中...';
 
         setTimeout(() => {
-          const bestMove = this.ai.getBestMove(this.aiLevel);
+          var bestMove = this.ai.getBestMove(this.aiLevel);
           this.isAiThinking = false;
           if (bestMove) {
             this.executeMove(bestMove);
@@ -1846,9 +1814,9 @@
         if (this.isAiThinking || this.game.isGameOver) return;
         if (this.mode === 'pve' && this.game.turn !== this.playerSide) return;
 
-        const matchedMove = this.legalTargets.find(m => m.toR === r && m.toC === c);
+        var matchedMove = this.legalTargets.find(m => m.toR === r && m.toC === c);
         if (matchedMove) {
-          const promoMoves = this.legalTargets.filter(m => m.toR === r && m.toC === c && m.type === 'move');
+          var promoMoves = this.legalTargets.filter(m => m.toR === r && m.toC === c && m.type === 'move');
           if (promoMoves.length > 1) {
             this.promptPromotion(promoMoves);
             return;
@@ -1857,7 +1825,7 @@
           return;
         }
 
-        const sq = this.game.board[r][c];
+        var sq = this.game.board[r][c];
         if (sq && sq.side === this.game.turn) {
           this.selectedCell = { r, c };
           this.selectedHand = null;
@@ -1883,11 +1851,11 @@
 
       promptPromotion(moves) {
         this.pendingPromoMoves = moves;
-        const unpromotedMove = moves.find(m => !m.promote);
-        const promotedMove = moves.find(m => m.promote);
+        var unpromotedMove = moves.find(m => !m.promote);
+        var promotedMove = moves.find(m => m.promote);
 
-        const unpromoKanji = PIECE_NAMES[unpromotedMove.piece][unpromotedMove.side === SENTE ? 'S' : 'G'];
-        const promoKanji = PIECE_NAMES[promotedMove.promotedType][promotedMove.side === SENTE ? 'S' : 'G'];
+        var unpromoKanji = PIECE_NAMES[unpromotedMove.piece][unpromotedMove.side === SENTE ? 'S' : 'G'];
+        var promoKanji = PIECE_NAMES[promotedMove.promotedType][promotedMove.side === SENTE ? 'S' : 'G'];
 
         this.dom.promoNoContainer.innerHTML = createPieceSvg(unpromoKanji, false, unpromotedMove.side === GOTE);
         this.dom.promoYesContainer.innerHTML = createPieceSvg(promoKanji, true, promotedMove.side === GOTE);
@@ -1897,7 +1865,7 @@
       executePromotionChoice(promote) {
         this.dom.promoModal.classList.remove('active');
         if (!this.pendingPromoMoves) return;
-        const chosen = this.pendingPromoMoves.find(m => m.promote === promote);
+        var chosen = this.pendingPromoMoves.find(m => m.promote === promote);
         this.pendingPromoMoves = null;
         if (chosen) {
           this.executeMove(chosen);
@@ -1906,8 +1874,8 @@
 
       executeMove(move) {
         this.futureHistory = [];
-        const lastMove = this.game.moveHistory.length > 0 ? this.game.moveHistory[this.game.moveHistory.length - 1].move : null;
-        const moveText = this.game.formatMoveText(move, lastMove);
+        var lastMove = this.game.moveHistory.length > 0 ? this.game.moveHistory[this.game.moveHistory.length - 1].move : null;
+        var moveText = this.game.formatMoveText(move, lastMove);
 
         if (move.captured) {
           this.sound.playCapture();
@@ -1936,12 +1904,12 @@
       handleUndo() {
         if (this.isAiThinking || this.game.moveHistory.length === 0) return;
         if (this.mode === 'pve' && this.game.moveHistory.length >= 2 && this.game.turn === this.playerSide) {
-          const m1 = this.game.undoMove();
-          const m2 = this.game.undoMove();
+          var m1 = this.game.undoMove();
+          var m2 = this.game.undoMove();
           if (m1) this.futureHistory.push(m1);
           if (m2) this.futureHistory.push(m2);
         } else {
-          const m = this.game.undoMove();
+          var m = this.game.undoMove();
           if (m) this.futureHistory.push(m);
         }
         this.clearSelection();
@@ -1950,7 +1918,7 @@
 
       handleRedo() {
         if (this.isAiThinking || this.futureHistory.length === 0) return;
-        const move = this.futureHistory.pop();
+        var move = this.futureHistory.pop();
         if (move) {
           this.game.makeMove(move);
           this.render();
@@ -1959,7 +1927,7 @@
 
       handleHint() {
         if (this.isAiThinking || this.game.isGameOver) return;
-        const hintMove = this.ai.getBestMove(3);
+        var hintMove = this.ai.getBestMove(3);
         if (hintMove) {
           if (hintMove.type === 'move') {
             this.selectedCell = { r: hintMove.fromR, c: hintMove.fromC };
@@ -1997,16 +1965,16 @@
       }
 
       copyKifu() {
-        const lines = [];
+        var lines = [];
         lines.push('【5五将棋 棋譜】');
         lines.push('対局日時: ' + new Date().toLocaleString());
         lines.push('先手: ' + this.dom.senteLabel.textContent);
         lines.push('後手: ' + this.dom.goteLabel.textContent);
         lines.push('-------------------------');
 
-        let lastM = null;
+        var lastM = null;
         this.game.moveHistory.forEach((hist, idx) => {
-          const moveText = this.game.formatMoveText(hist.move, lastM);
+          var moveText = this.game.formatMoveText(hist.move, lastM);
           lines.push((idx + 1).toString().padStart(3, ' ') + ' ' + moveText);
           lastM = hist.move;
         });
@@ -2015,7 +1983,7 @@
           lines.push('まで ' + this.game.moveHistory.length + '手で ' + this.game.resultReason);
         }
 
-        const fullKifu = lines.join('\n');
+        var fullKifu = lines.join('\n');
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(fullKifu).then(() => {
             alert('棋譜をコピーしました！');
@@ -2037,11 +2005,11 @@
 
       renderBoard() {
         this.dom.boardGrid.innerHTML = '';
-        const inCheck = this.game.isKingInCheck(this.game.turn);
-        const lastMove = this.game.moveHistory.length > 0 ? this.game.moveHistory[this.game.moveHistory.length - 1].move : null;
+        var inCheck = this.game.isKingInCheck(this.game.turn);
+        var lastMove = this.game.moveHistory.length > 0 ? this.game.moveHistory[this.game.moveHistory.length - 1].move : null;
 
-        const colLabelsEl = document.getElementById('colLabels');
-        const rowLabelsEl = document.getElementById('rowLabels');
+        var colLabelsEl = document.getElementById('colLabels');
+        var rowLabelsEl = document.getElementById('rowLabels');
         if (this.isFlipped) {
           colLabelsEl.innerHTML = '<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>';
           rowLabelsEl.innerHTML = '<span>五</span><span>四</span><span>三</span><span>二</span><span>一</span>';
@@ -2050,12 +2018,12 @@
           rowLabelsEl.innerHTML = '<span>一</span><span>二</span><span>三</span><span>四</span><span>五</span>';
         }
 
-        for (let displayR = 0; displayR < 5; displayR++) {
-          for (let displayC = 0; displayC < 5; displayC++) {
-            const r = this.isFlipped ? (4 - displayR) : displayR;
-            const c = this.isFlipped ? (4 - displayC) : displayC;
+        for (var displayR = 0; displayR < 5; displayR++) {
+          for (var displayC = 0; displayC < 5; displayC++) {
+            var r = this.isFlipped ? (4 - displayR) : displayR;
+            var c = this.isFlipped ? (4 - displayC) : displayC;
 
-            const cellEl = document.createElement('div');
+            var cellEl = document.createElement('div');
             cellEl.className = 'board-cell';
 
             if (this.selectedCell && this.selectedCell.r === r && this.selectedCell.c === c) {
@@ -2071,18 +2039,18 @@
               }
             }
 
-            const sq = this.game.board[r][c];
+            var sq = this.game.board[r][c];
 
             if (sq && sq.type === 'K' && sq.side === this.game.turn && inCheck) {
               cellEl.classList.add('in-check');
             }
 
             if (sq) {
-              const isPromoted = sq.type.startsWith('+');
-              const kanji = PIECE_NAMES[sq.type][sq.side === SENTE ? 'S' : 'G'];
-              const isGote = (sq.side === GOTE);
+              var isPromoted = sq.type.startsWith('+');
+              var kanji = PIECE_NAMES[sq.type][sq.side === SENTE ? 'S' : 'G'];
+              var isGote = (sq.side === GOTE);
 
-              const pieceWrap = document.createElement('div');
+              var pieceWrap = document.createElement('div');
               pieceWrap.className = 'piece-container';
               if (this.selectedCell && this.selectedCell.r === r && this.selectedCell.c === c) {
                 pieceWrap.classList.add('selected');
@@ -2091,23 +2059,26 @@
               cellEl.appendChild(pieceWrap);
             }
 
-            const isTarget = this.legalTargets.some(m => m.toR === r && m.toC === c);
+            var isTarget = this.legalTargets.some(m => m.toR === r && m.toC === c);
             if (isTarget) {
               if (sq) {
-                const capMarker = document.createElement('div');
+                var capMarker = document.createElement('div');
                 capMarker.className = 'target-capture-marker';
                 cellEl.appendChild(capMarker);
               } else {
-                const marker = document.createElement('div');
+                var marker = document.createElement('div');
                 marker.className = 'target-marker';
                 cellEl.appendChild(marker);
               }
             }
 
-            cellEl.addEventListener('click', (e) => {
-              e.preventDefault();
-              this.handleCellClick(r, c);
-            });
+            ((row, col) => {
+              cellEl.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleCellClick(row, col);
+              });
+            })(r, c);
+            
             this.dom.boardGrid.appendChild(cellEl);
           }
         }
@@ -2117,13 +2088,14 @@
         this.dom.senteCaptured.innerHTML = '';
         this.dom.goteCaptured.innerHTML = '';
 
-        const order = ['R', 'B', 'G', 'S', 'P'];
+        var order = ['R', 'B', 'G', 'S', 'P'];
 
-        for (const pt of order) {
-          const count = this.game.hands[SENTE][pt];
+        for (var i = 0; i < order.length; i++) {
+          var pt = order[i];
+          var count = this.game.hands[SENTE][pt];
           if (count > 0) {
-            const kanji = PIECE_NAMES[pt].S;
-            const wrap = document.createElement('div');
+            var kanji = PIECE_NAMES[pt].S;
+            var wrap = document.createElement('div');
             wrap.className = 'hand-piece-wrap';
             if (this.selectedHand && this.selectedHand.side === SENTE && this.selectedHand.piece === pt) {
               wrap.classList.add('selected');
@@ -2131,25 +2103,28 @@
             wrap.innerHTML = createPieceSvg(kanji, false, false);
 
             if (count > 1) {
-              const countEl = document.createElement('span');
+              var countEl = document.createElement('span');
               countEl.className = 'hand-piece-count';
               countEl.textContent = count;
               wrap.appendChild(countEl);
             }
 
-            wrap.addEventListener('click', (e) => {
-              e.preventDefault();
-              this.handleHandPieceClick(pt, SENTE);
-            });
+            ((pieceType) => {
+              wrap.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleHandPieceClick(pieceType, SENTE);
+              });
+            })(pt);
             this.dom.senteCaptured.appendChild(wrap);
           }
         }
 
-        for (const pt of order) {
-          const count = this.game.hands[GOTE][pt];
+        for (var i = 0; i < order.length; i++) {
+          var pt = order[i];
+          var count = this.game.hands[GOTE][pt];
           if (count > 0) {
-            const kanji = PIECE_NAMES[pt].G;
-            const wrap = document.createElement('div');
+            var kanji = PIECE_NAMES[pt].G;
+            var wrap = document.createElement('div');
             wrap.className = 'hand-piece-wrap';
             if (this.selectedHand && this.selectedHand.side === GOTE && this.selectedHand.piece === pt) {
               wrap.classList.add('selected');
@@ -2157,26 +2132,28 @@
             wrap.innerHTML = createPieceSvg(kanji, false, false);
 
             if (count > 1) {
-              const countEl = document.createElement('span');
+              var countEl = document.createElement('span');
               countEl.className = 'hand-piece-count';
               countEl.textContent = count;
               wrap.appendChild(countEl);
             }
 
-            wrap.addEventListener('click', (e) => {
-              e.preventDefault();
-              this.handleHandPieceClick(pt, GOTE);
-            });
+            ((pieceType) => {
+              wrap.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleHandPieceClick(pieceType, GOTE);
+              });
+            })(pt);
             this.dom.goteCaptured.appendChild(wrap);
           }
         }
       }
 
       renderStatus() {
-        const isSenteTurn = (this.game.turn === SENTE);
+        var isSenteTurn = (this.game.turn === SENTE);
         this.dom.turnBadge.className = 'turn-badge ' + (isSenteTurn ? 'sente' : 'gote');
 
-        let turnName = '';
+        var turnName = '';
         if (this.mode === 'pve') {
           turnName = (this.game.turn === this.playerSide) ? 'あなた (手番)' : ('AI (Lv' + this.aiLevel + ')');
         } else if (this.mode === 'pvp') {
@@ -2217,33 +2194,33 @@
       renderKifu() {
         this.dom.kifuList.innerHTML = '';
 
-        const startItem = document.createElement('div');
+        var startItem = document.createElement('div');
         startItem.className = 'kifu-item ' + (this.game.moveHistory.length === 0 ? 'current' : '');
         startItem.innerHTML = '<span class="kifu-num">開始</span><span class="kifu-move">初期配置</span>';
         this.dom.kifuList.appendChild(startItem);
 
-        let lastM = null;
+        var lastM = null;
         this.game.moveHistory.forEach((hist, idx) => {
-          const item = document.createElement('div');
-          const isCurrent = (idx === this.game.moveHistory.length - 1);
+          var item = document.createElement('div');
+          var isCurrent = (idx === this.game.moveHistory.length - 1);
           item.className = 'kifu-item ' + (isCurrent ? 'current' : '');
-          const moveText = this.game.formatMoveText(hist.move, lastM);
+          var moveText = this.game.formatMoveText(hist.move, lastM);
           item.innerHTML = '<span class="kifu-num">' + (idx + 1) + '</span><span class="kifu-move">' + moveText + '</span>';
           this.dom.kifuList.appendChild(item);
           lastM = hist.move;
         });
 
-        const container = document.querySelector('.kifu-container');
+        var container = document.querySelector('.kifu-container');
         if (container) container.scrollTop = container.scrollHeight;
       }
 
       renderEval() {
-        const rawScore = this.game.evaluate();
-        const winProb = 1 / (1 + Math.exp(-rawScore / 600));
-        const sentePct = Math.round(winProb * 100);
+        var rawScore = this.game.evaluate();
+        var winProb = 1 / (1 + Math.exp(-rawScore / 600));
+        var sentePct = Math.round(winProb * 100);
         this.dom.evalBar.style.width = sentePct + '%';
 
-        let scoreStr = '';
+        var scoreStr = '';
         if (Math.abs(rawScore) < 50) {
           scoreStr = '互角 (' + (rawScore > 0 ? '+' : '') + rawScore + ')';
         } else if (rawScore > 0) {
@@ -2268,6 +2245,7 @@
     }
 
   })();
+  //]]>
   </script>
 </body>
 </html>
